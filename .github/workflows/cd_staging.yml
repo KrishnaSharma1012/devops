@@ -9,10 +9,10 @@ on:
 jobs:
   redeploy_everything:
     runs-on: ubuntu-latest
-    name: Deploying everything to the staging cluster
+    name: SSH into server
 
     steps:
-      - name: SSH into server
+      - name: Deploy on staging server
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
@@ -23,5 +23,5 @@ jobs:
             pnpm run build
             pm2 restart fe-server
             pm2 restart http-server
-            pm2 restart ws-server       
+            pm2 restart ws-server
           EOF
