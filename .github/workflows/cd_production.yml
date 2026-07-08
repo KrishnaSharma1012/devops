@@ -4,7 +4,7 @@ name: Deploy to staging
 on:
   push:
     branches:
-      - prod
+      - production
 
 jobs:
   redeploy_everything:
@@ -16,12 +16,12 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@15.206.70.234 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.207.151.194 << 'EOF'
             set -e
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             cd ~/devops
-            git pull origin prod
+            git pull origin production
             pnpm install
             pnpm run build
             pm2 restart fe-server
